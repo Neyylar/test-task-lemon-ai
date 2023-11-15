@@ -8,14 +8,15 @@ import {
 } from '@chakra-ui/react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { yupResolver } from '@hookform/resolvers/yup';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { bool, object, string } from 'yup';
 
-import { addUser, QUERY_KEYS } from '~/api/users/users';
+import { addUser } from '~/api/users/users';
 import TextField from '~/components/textField/TextField';
 import { PLACEHOLDER_PAGE_URL } from '~/consts/routes';
 
@@ -40,15 +41,17 @@ const SignInForm = () => {
     []
   );
 
-  const { mutate } = useMutation([QUERY_KEYS.addUser], addUser, {
+  const { mutate } = useMutation({
+    mutationFn: addUser,
     onSuccess: (response) => {
+      const { name } = response.user;
       router.push({
         pathname: PLACEHOLDER_PAGE_URL,
-        query: { userName: response.name },
+        query: { userName: name },
       });
     },
     onError: (err) => {
-      toast({ title: `Error occurred ${err}`, variant: err });
+      toast({ title: `Error occurred: ${err.message}` });
     },
   });
 
@@ -63,7 +66,7 @@ const SignInForm = () => {
   });
 
   const onSubmit = useCallback(
-    (values) => {
+    (values: FormValues) => {
       mutate({
         name: values.firstName,
         email: values.email,

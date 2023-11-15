@@ -1,8 +1,6 @@
-export const QUERY_KEYS = {
-  addUser: 'addUser',
-};
+import { post } from '~/services/fetcher';
+import type { AddUserRequest, AddUserResponse } from '~/types/user';
 
-export const addUser = async ({ name, email, emailSubscription }) => {
-  if (name !== 'forbidden') return { name, email, emailSubscription };
-  throw new Error('name is forbidden');
-};
+// eslint-disable-next-line import/prefer-default-export
+export const addUser = (data: AddUserRequest) =>
+  post<AddUserResponse>('/api/user', { ...data });

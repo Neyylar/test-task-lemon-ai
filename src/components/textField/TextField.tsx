@@ -3,6 +3,7 @@
 import { Flex, Text, Input } from '@chakra-ui/react';
 import type { Control, FieldError, FieldPath } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
+import { MdOutlineErrorOutline } from 'react-icons/md';
 
 import { colors } from '~/styles/theme/colors';
 
@@ -44,16 +45,17 @@ const TextField = <T extends Record<string, unknown>>({
         )}
       />
       {!!error && (
-        <Text
-          fontSize="15px"
-          fontWeight={400}
+        <Flex
           position="absolute"
           bottom={0}
-          pt={4}
-          textColor={colors.brand?.[600] || colors.red}
+          flexDirection="row"
+          alignItems="center"
         >
-          {error.message}
-        </Text>
+          <MdOutlineErrorOutline color={colors.red} size={20} />
+          <Text fontSize="15px" fontWeight={400} pl={1} textColor={colors.red}>
+            {error.message}
+          </Text>
+        </Flex>
       )}
     </Flex>
   );

@@ -11,7 +11,7 @@ export const Button: ComponentStyleConfig = {
     border: '1.5px solid #35694F',
     borderRadius: '5px',
     padding: '17px 33px 17px 33px',
-    boxShadow: '0px 4px 4px 0px #00000040',
+    boxShadow: colors.blackGradient,
     _hover: {
       background: 'unset',
       backgroundColor: colors.brand?.[200],

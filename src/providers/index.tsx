@@ -1,8 +1,9 @@
 'use client';
 
 import { CacheProvider } from '@chakra-ui/next-js';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { PropsWithChildren } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
 import ChakraProvider from './ChakraProvider';
 
