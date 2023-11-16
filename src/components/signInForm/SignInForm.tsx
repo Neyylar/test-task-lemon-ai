@@ -6,15 +6,12 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { yupResolver } from '@hookform/resolvers/yup';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { bool, object, string } from 'yup';
+import { object, string } from 'yup';
 
 import { addUser } from '~/api/users/users';
 import TextField from '~/components/textField/TextField';
@@ -36,7 +33,6 @@ const SignInForm = () => {
         email: string()
           .email('Wrong format of email')
           .required('Field is required'),
-        emailSubscription: bool().required(),
       }),
     []
   );
@@ -44,7 +40,7 @@ const SignInForm = () => {
   const { mutate } = useMutation({
     mutationFn: addUser,
     onSuccess: (response) => {
-      const { name } = response.user;
+      const name = response.user?.name;
       router.push({
         pathname: PLACEHOLDER_PAGE_URL,
         query: { userName: name },
@@ -70,7 +66,7 @@ const SignInForm = () => {
       mutate({
         name: values.firstName,
         email: values.email,
-        emailSubscription: values.emailSubscription,
+        emailSubscription: values.emailSubscription ?? false,
       });
     },
     [mutate]
@@ -103,7 +99,8 @@ const SignInForm = () => {
                 fontSize="16px"
                 fontWeight={400}
                 onChange={onChange}
-                value={value}
+                checked={value}
+                data-testid="checkbox"
               >
                 <Text>I want to receive updates via email. </Text>
               </Checkbox>
@@ -116,6 +113,7 @@ const SignInForm = () => {
             fontSize="18px"
             fontWeight={700}
             onClick={handleSubmit(onSubmit)}
+            data-testid="submitButton"
           >
             Start the Course
           </Button>

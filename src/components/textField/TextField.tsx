@@ -28,6 +28,7 @@ const TextField = <T extends Record<string, unknown>>({
       justifyContent="center"
       w="350px"
       pb="30px"
+      data-testid={`textField-${name}`}
     >
       <Text fontSize="20px" fontWeight={700} marginBottom={2}>
         {title}
